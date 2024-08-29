@@ -34,16 +34,19 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("distributor_edit").value = data.distributor; // Set the distributor name
         document.getElementById("dateArrived_edit").value = data.date_arrived; // Set the date arrived
         document.getElementById("dateLeft_edit").value = data.date_left; // Set the date left
+        document.getElementById("status_edit").value = data.current_status;
       })
       .catch((error) =>
         console.error("Error fetching current item ID:", error)
       ); // Log any errors
   });
+
+  // Event listener for the Delete Modal
   deleteModal.addEventListener("show.bs.modal", function (event) {
     var button = event.relatedTarget; // Button that triggered the modal
     var itemId = button.getAttribute("data-id"); // Extract item ID from data-* attribute
 
     // Set the item ID in the hidden input field of the delete form
-    document.getElementById("item_id_delete").value = itemId;
+    document.getElementById("itemID_delete_hidden").value = itemId; // Make sure this ID matches the hidden input in your HTML
   });
 });
