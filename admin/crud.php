@@ -74,50 +74,66 @@
             </tr>
           </thead>
           <tbody class="table-group-divider">
-              <?php 
-              include "connect.php";
-              
-              $sql = "SELECT * FROM items";
-              $result = mysqli_query($conn, $sql);
+    <?php 
+    include "connect.php";
 
-              
-              while($row = mysqli_fetch_assoc($result)){
-                $highlightClass = '';
-                if ($row['status_id'] === '0') {
-                    $highlightClass = 'table-success';
-                } elseif ($row['status_id'] === '1') {
-                    $highlightClass = 'text-danger';
-                }
-                if ($row['status'] === 'Success') {
-                    $highlightClass = 'table-success';
-                } elseif ($row['status'] === 'Failed') {
-                    $highlightClass = 'text-danger';
-                }
-              ?>
-              <tr>
-                  <td><?php echo $row['item_id']?></td>
-                  <td><?php echo $row['item_name']?></td>
-                  <td class="<?php echo $highlightClass; ?>"><?php echo $row['distributor']?></td>
-                  <td><?php echo $row['date_arrived']?></td>
-                  <td><?php echo $row['date_left']?></td>
-                  <td class="<?php echo $highlightClass; ?>"><?php echo $row['status']?></td>
-                  <td class="<?php echo $highlightClass; ?>"><?php echo $row['status_id']?></td>
-                  <td class="buttons text-center">
-                      <div class="d-flex justify-content-center">
-                          <button type="button" class="btn ps-md-1 p-sm-7 me-2 ms-1 align-items-center justify-content-center text-center del" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?php echo $row['item_id']; ?>">
-                              <span class="ms-md-1"><i class="bi bi-pencil-square fs-5 fs-lg-4 fs-md-3 fs-sm-1 m-1"></i></span>
-                          </button>
+    // First query: Joining items with status
+    $sql1 = "SELECT items.item_id, items.item_name, items.distributor, items.date_arrived, items.date_left, status.status status.status_id 
+             FROM items 
+             JOIN status ON items.status = status.status_id";
+    $result1 = mysqli_query($conn, $sql1);
 
-                          <button type="button" class="btn ps-md-1 p-sm-7 ms-1 align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="<?php echo $row['item_id']; ?>">
-                              <span class="ms-md-1"><i class="bi bi-trash fs-5 fs-lg-4 fs-md-3 fs-sm-1 m-1"></i></span>
-                          </button>
-                      </div>
-                  </td>
-              </tr>
-              <?php
-              }
-              ?>
-          </tbody>
+    // Second query: Selecting all items
+    $sql2 = "SELECT * FROM items";
+    $result2 = mysqli_query($conn, $sql2);
+
+    // Fetch results from the first query
+    while ($row1 = mysqli_fetch_assoc($result1) && $row1 = mysqli_fetch_assoc($result2)) {
+
+      // $sql = "
+      // SELECT items.*, status.status_name
+      // FROM items
+        // Initialize the highlight class based on status
+        $highlightClass = '';
+        if ($row1['status_id'] === '0') {
+            $highlightClass = 'table-success'; // Success status
+        } elseif ($row1['status_id'] === '1') {
+            $highlightClass = 'text-danger'; // Failed status
+        }
+    ?>
+    <tr>
+        <td><?php echo htmlspecialchars($row1['item_id']); ?></td>
+        <td><?php echo htmlspecialchars($row1['item_name']); ?></td>
+        <td><?php echo htmlspecialchars($row1['distributor']); ?></td>
+        <td><?php echo htmlspecialchars($row1['date_arrived']); ?></td>
+        <td><?php echo htmlspecialchars($row1['date_left']); ?></td>
+        <td class="<?php echo $highlightClass; ?>"><?php echo htmlspecialchars($row1['status']); ?></td>
+        <td><?php echo htmlspecialchars($row1['status_id']); ?></td>
+        <td class="buttons text-center">
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn ps-md-1 p-sm-7 me-2 ms-1 align-items-center justify-content-center text-center del" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?php echo htmlspecialchars($row1['item_id']); ?>">
+                    <span class="ms-md-1"><i class="bi bi-pencil-square fs-5 fs-lg-4 fs-md-3 fs-sm-1 m-1"></i></span>
+                </button>
+
+                <button type="button" class="btn ps-md-1 p-sm-7 ms-1 align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="<?php echo htmlspecialchars($row1['item_id']); ?>">
+                    <span class="ms-md-1"><i class="bi bi-trash fs-5 fs-lg-4 fs-md-3 fs-sm-1 m-1"></i></span>
+                </button>
+            </div>
+        </td>
+    </tr>
+    <?php
+    }
+
+    // Fetch results from the second query (if needed)
+    while ($row2 = mysqli_fetch_assoc($result2)) {
+        // Additional processing for $row2 if required
+        // You can add more logic here if the second query results need to be displayed or used.
+    }
+    ?>
+</tbody>
+
+
+
         </table>
       </div>
 
