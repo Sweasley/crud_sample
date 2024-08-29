@@ -1,0 +1,58 @@
+:root {
+  --main-color: #9966cc;
+  --main-color-light: #c0a1e0;
+  --main-font: "Inter", sans-serif; /* Correct font variable */
+  --secondary-color: #66cc99;
+  --font-color: #fffff0;
+  --font-hover: #666362;
+}
+
+body {
+  font-family: var(--main-font); /* Use the font variable here */
+  background-color: var(--main-color);
+  color: var(--font-color);
+}
+
+.login-form {
+  width: 30%;
+  max-width: 70%;
+  margin: auto;
+}
+
+.bg {
+  background: rgba(163, 117, 209, 0.8);
+  /* Translucent version of --main-color */
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  backdrop-filter: blur(10px); /* More pronounced blur */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Light border for the glassy edge */
+}
+
+.btn {
+  background: rgba(192, 161, 224);
+  color: black;
+  text-align: center;
+}
+.del {
+  background-color: var(--secondary-color);
+}
+.btn:hover {
+  background-color: var(--main-color);
+  color: var(--font-color);
+}
+
+/* crud file  */
+table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.btn i {
+  margin: 0;
+  display: inline;
+}
+
+.modal {
+  color: var(--font-hover);
+}
